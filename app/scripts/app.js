@@ -35,6 +35,9 @@ Instructions:
 
     Your code goes here!
      */
+    return fetch(url, {
+      method: "get"
+    })
   }
 
   /**
@@ -48,6 +51,13 @@ Instructions:
 
     Your code goes here!
      */
+    return new Promise(function(resolve, reject) {
+      get(url).then(function(response) {
+        resolve(response)
+      }).catch(function(errorResult){
+        reject(errorResult);
+      });
+    })
   }
 
   window.addEventListener('WebComponentsReady', function() {
@@ -58,6 +68,14 @@ Instructions:
 
     Your code goes here too!
      */
-    // getJSON('../data/earth-like-results.json')
+    getJSON('../data/earth-like-results.json')
+    .then(function(response) {
+      return response.json()
+    }).then(function(response){
+      addSearchHeader(response.query);
+    }).catch(function(error) {
+      addSearchHeader('unknown')
+      console.log(error);
+    })
   });
 })(document);
