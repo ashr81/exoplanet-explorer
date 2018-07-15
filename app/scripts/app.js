@@ -63,9 +63,7 @@ Instructions:
     .then(function(response) {
       addSearchHeader(response.query);
       response.results.map(function(url) {
-        return getJSON(url).then(function(response) {
-          return createPlanetThumb(response);
-        })
+        return getJSON(url).then(createPlanetThumb);
       })
     })
   });
