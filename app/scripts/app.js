@@ -54,13 +54,7 @@ Instructions:
   function getJSON(url) {
     return get(url).then(function(response) {
       return response.json();
-    }).then(function(response) {
-      addSearchHeader(response.query)
-      createPlanetThumb(response.results[0]);
-    }).catch(function(error){
-      addSearchHeader('unknown');
-      console.log(error);
-    });
+    })
   }
 
   window.addEventListener('WebComponentsReady', function() {
@@ -71,5 +65,16 @@ Instructions:
     Your code goes here!
      */
     getJSON('../data/earth-like-results.json')
+    .then(function(response) {
+      addSearchHeader(response.query)
+      return getJSON(response.results[0]);
+    }).catch(function(error){
+      addSearchHeader('unknown');
+      console.log(error);
+    }).then(function(response){
+      createPlanetThumb(response);
+    }).catch(function(error){
+      console.log(error);
+    });
   });
 })(document);
